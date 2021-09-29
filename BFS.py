@@ -34,6 +34,7 @@ def bfs_search(root_node, search_value):
     to_be_checked_node = root_node
     print('here', root_node.value)
     graph_result = Graph(node_list)
+    print (graph_result.nodes, "check")
     if root_node.value == search_value:
         node_list = [root_node]
         graph_result = Graph(node_list)
@@ -51,7 +52,7 @@ def bfs_search(root_node, search_value):
             if first_child.value == search_value:
                 print('bingo')
                 keys_list = list(explored)
-                graph_result.nodes.append(keys_list)
+                graph_result.nodes+=(keys_list)
                 for i, key in enumerate(keys_list):
                     if i != (len(keys_list) - 1):
                         graph_result.add_edge(key, keys_list[i + 1])
@@ -63,6 +64,28 @@ def bfs_search(root_node, search_value):
 
 
 
+
+
+
+
+
+if __name__ == "__main__":
+    nodeG = GraphNode('G')
+    nodeR = GraphNode('R')
+    nodeA = GraphNode('A')
+    nodeP = GraphNode('P')
+    nodeH = GraphNode('H')
+    nodeS = GraphNode('S')
+    graph1 = Graph([nodeS, nodeH, nodeG, nodeP, nodeR, nodeA])
+    graph1.add_edge(nodeG, nodeR)
+    graph1.add_edge(nodeA, nodeR)
+    graph1.add_edge(nodeA, nodeG)
+    graph1.add_edge(nodeR, nodeP)
+    graph1.add_edge(nodeH, nodeG)
+    graph1.add_edge(nodeH, nodeP)
+    graph1.add_edge(nodeS, nodeR)
+    Graph_Result= bfs_search(nodeS, 'A')
+    print (Graph_Result.nodes[1].value)
 
 
 
