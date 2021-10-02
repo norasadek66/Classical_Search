@@ -67,12 +67,28 @@ def bfs_search(root_node, search_value):
                     #print len(keys_list), "length"
                     for i, key in enumerate(keys_list):
                         if i != (len(keys_list) - 1):
-                            print "following key ", key.value
+                            #print "following key ", key.value
                             graph_result.nodes.append(key)
+                            for val in graph_result.nodes:
+                                if val.value!=key.value:
+                                    if key in val.children:
+
+                                        #print key.value, val.value, "new edge"
+                                        graph_result.add_edge(val,key)
+
+
+
                             #graph_result.add_edge(key, keys_list[i + 1])
                         else:
                             graph_result.nodes.append(key)
+                            for val in graph_result.nodes:
+                                if val.value != key.value:
+                                    if key in val.children:
+                                        #print key.value, val.value, "new edge"
+                                        graph_result.add_edge(val, key)
+                                        break
                     #temp = list(explored)
+
 
                     return graph_result
                 else:
