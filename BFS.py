@@ -25,6 +25,17 @@ class Graph(object):
             node1.remove_child(node2)
             node2.remove_child(node1)
 
+def bfs_search2(root_node,search_value):
+    explored=()
+    queue=[root_node]
+    while len(queue)>0:
+        to_check=queue.pop(0)
+        explored.add(to_check)
+        if to_check.value==search_value:
+            return to_check
+        for child in to_check.children:
+            if child not in explored:
+                queue.append(child)
 
 def bfs_search(root_node, search_value):
     node_list = []
