@@ -28,21 +28,49 @@ class Graph:
 
 
 def dijkstra(graph, source):
-    # Declare and initialize result, unvisited, and path
+    result={}
+    result[source]=0
+    unvisited=set()
+    for node in graph.nodes:
+        if node != source:
+            unvisited.add(node)
+    path={}
+    # path contains most optimal previous node for every node in the graph
+    min_distance = 0
+    min_prev_node = ""
+    i = 0
+    for k,v in graph.distances.items():
+        if k[0] == source:
+            result[k[1]] = v
+
 
     # As long as unvisited is non-empty
     while unvisited:
-
-    # 1. Find the unvisited node having smallest known distance from the source node.
-
-    # 2. For the current node, find all the unvisited neighbours. For this, you have calculate the distance of each unvisited neighbour.
-
-    # 3. If the calculated distance of the unvisited neighbour is less than the already known distance in result dictionary, update the shortest distance in the result dictionary.
-
-    # 4. If there is an update in the result dictionary, you need to update the path dictionary as well for the same key.
-
-    # 5. Remove the current node from the unvisited set.
-
+        i = 0
+        for k,v in result.items():
+            if k != source and i == 0 and k in unvisited:
+                min_distance = v
+                min_prev_node = k
+                i += 1
+            elif k != source and i != 0 and k in unvisited:
+                if v < min_distance:
+                    min_distance = v
+                    min_prev_node = k
+                    path[min_prev_node] = source
+                    result[min_prev_node] = min_distance
+        neighbours_list = graph.neighbours[min_prev_node]
+        distances_dict = graph.distances
+        for neighbour in neighbours_list:
+            if neighbour in unvisited:
+                dist_for_neighbour = distances_dict[(min_prev_node, neighbour)] + min_distance
+                if neighbour in result.keys():
+                    if dist_for_neighbour < result[neighbour]:
+                        result[neighbour] = dist_for_neighbour
+                        path[neighbour] = min_prev_node
+                else:
+                    result[neighbour] = dist_for_neighbour
+                    path[neighbour] = min_prev_node
+        unvisited.remove(min_prev_node)
     return result
 if __name__=="__main__":
     testGraph = Graph()
@@ -58,12 +86,12 @@ if __name__=="__main__":
     testGraph.add_edge('E', 'D', 1)
 
     print(dijkstra(testGraph, 'A'))  # {'A': 0, 'D': 2, 'B': 3, 'E': 3, 'C': 4}
-    #graph = Graph()
-    #for node in ['A', 'B', 'C']:
-        #graph.add_node(node)
+    graph = Graph()
+    for node in ['A', 'B', 'C']:
+        graph.add_node(node)
 
-    #graph.add_edge('A', 'B', 5)
-    #graph.add_edge('B', 'C', 5)
-    #graph.add_edge('A', 'C', 10)
+    graph.add_edge('A', 'B', 5)
+    graph.add_edge('B', 'C', 5)
+    graph.add_edge('A', 'C', 10)
 
-    #print(dijkstra(graph, 'A'))
+    print(dijkstra(graph, 'A'))
